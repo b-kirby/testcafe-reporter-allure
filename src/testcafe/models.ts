@@ -28,8 +28,15 @@ export interface Screenshot {
   takenOnFail?: boolean;
 }
 
+export interface Video {
+  singleFile?: boolean;
+  testRunId?: string;
+  videoPath?: string;
+}
+
 // https://devexpress.github.io/testcafe/documentation/reference/plugin-api/reporter.html#testruninfo-object
 export interface TestRunInfo {
+  videos: Video[];
   errs?: object[];
   warnings?: string[];
   durationMs?: number;

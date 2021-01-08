@@ -87,7 +87,6 @@ export default class AllureReporter {
 
   public endTest(name: string, testRunInfo: TestRunInfo, meta: object): void {
     let currentTest = this.getCurrentTest(name);
-
     // If no currentTest exists create a new one
     if (currentTest === null) {
       this.startTest(name, meta);
@@ -155,10 +154,22 @@ export default class AllureReporter {
       this.addScreenshotAttachments(currentTest, testRunInfo);
     }
 
+    this.addVideoAttachments(currentTest, testRunInfo);
+
     currentTest.detailsMessage = testMessages;
     currentTest.detailsTrace = testDetails;
     currentTest.stage = Stage.FINISHED;
     currentTest.endTest();
+  }
+
+  //Add video attachments if Video capture is set 
+  private addVideoAttachments(currentTest: AllureTest, testRunInfo: TestRunInfo) {
+    if(testRunInfo.videos){
+      testRunInfo.videos.forEach(video => {
+        const file = this.runtime.writeAttachment(fs.readFileSync(video.videoPath), ContentType.WEBM);
+        currentTest.addAttachment("Video", ContentType.WEBM, file);
+      })
+    }
   }
 
   /* To add the screenshots to the correct test steps they have to be loaded from testRunInfo.screenshots.
