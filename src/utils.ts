@@ -1,7 +1,7 @@
 import { Severity } from 'allure-js-commons';
-import step from './testcafe/step';
 import { loadReporterConfig } from './utils/config';
+import { step, stepEnd, stepStart } from './testcafe/step';
 
 const reporterConfig = loadReporterConfig();
 
-export { step, reporterConfig, Severity };
+export { step, stepStart, stepEnd, reporterConfig, Severity };

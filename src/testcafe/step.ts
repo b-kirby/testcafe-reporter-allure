@@ -1,7 +1,9 @@
 /* eslint-disable class-methods-use-this,no-param-reassign */
+import Metadata from '../reporter/metadata';
 import { loadReporterConfig } from '../utils/config';
 
 const reporterConfig = loadReporterConfig();
+var testStep: TestStep
 
 export class TestStep {
   public screenshotAmount: number;
@@ -61,15 +63,25 @@ export class TestStep {
    Therefore the steps cannot be added without a clean TestController.
 */
 // eslint-disable-next-line no-undef
-export default async function step(name: string, testController: TestController, stepAction: any) {
-  let stepPromise = stepAction;
+export async function step(name: string, testController: any, stepAction: any) {
   const testStep = new TestStep(name);
-
-  if (reporterConfig.ENABLE_SCREENSHOTS) {
-    stepPromise = stepPromise.takeScreenshot();
-    testStep.registerScreenshot();
-  }
-
   testStep.addStepToTest(testController);
+  let stepPromise = await stepAction
+  if (reporterConfig.ENABLE_SCREENSHOTS) {
+    await testController.takeScreenshot()
+    testStep.registerScreenshot(); 
+  }
   return stepPromise;
+}
+
+export async function stepStart(name:string, testController: any) {
+  testStep = new TestStep(name);
+  testStep.addStepToTest(testController);
+}
+
+export async function stepEnd(testController: any) {
+  if (reporterConfig.ENABLE_SCREENSHOTS) {
+    await testController.takeScreenshot()
+    testStep.registerScreenshot(); 
+  }
 }

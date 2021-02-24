@@ -37,6 +37,7 @@ export interface ErrorObject {
     errMsg?: string;
     callsite?: CallSite;
     userAgent?: string;
+    screeShotPath?: string;
 }
 export interface CallSite {
     filename?: string;

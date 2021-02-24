@@ -7,4 +7,6 @@ export declare class TestStep {
     addStepToTest(test: TestController): void;
     private getMeta;
 }
-export default function step(name: string, testController: TestController, stepAction: any): Promise<any>;
+export declare function step(name: string, testController: any, stepAction: any): Promise<any>;
+export declare function stepStart(name: string, testController: any): Promise<void>;
+export declare function stepEnd(testController: any): Promise<void>;

@@ -11,72 +11,7 @@ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'defau
 
 var rimraf__default = /*#__PURE__*/_interopDefaultLegacy(rimraf);
 
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-
-function __rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-}
-
-function __awaiter(thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-}
-
-function __generator(thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-}
-
-var defaultReporterConfig = {
+const defaultReporterConfig = {
     REPORTER_CONFIG_FILE: './allure.config.js',
     CATEGORIES_CONFIG_FILE: './allure-categories.config.js',
     RESULT_DIR: './allure/allure-results',
@@ -101,7 +36,7 @@ var defaultReporterConfig = {
         DEFAULT_STEP_NAME: 'Test Step',
     },
 };
-var defaultCategoriesConfig = [
+const defaultCategoriesConfig = [
     {
         name: 'Ignored tests',
         matchedStatuses: [allureJsCommons.Status.SKIPPED],
@@ -127,7 +62,7 @@ var defaultCategoriesConfig = [
     },
 ];
 function loadCustomConfig(configFile) {
-    var customConfig = null;
+    let customConfig = null;
     try {
         // The presence of this config module is not guarenteed therefore this approach is needed.
         /* eslint-disable-next-line import/no-dynamic-require,global-require */
@@ -139,21 +74,21 @@ function loadCustomConfig(configFile) {
     return customConfig;
 }
 function loadReporterConfig() {
-    var customConfig = loadCustomConfig(defaultReporterConfig.REPORTER_CONFIG_FILE);
-    var mergedConfig = mergeAnything.merge(defaultReporterConfig, customConfig);
+    const customConfig = loadCustomConfig(defaultReporterConfig.REPORTER_CONFIG_FILE);
+    const mergedConfig = mergeAnything.merge(defaultReporterConfig, customConfig);
     return mergedConfig;
 }
 function loadCategoriesConfig() {
-    var customConfig = loadCustomConfig(defaultReporterConfig.CATEGORIES_CONFIG_FILE);
+    const customConfig = loadCustomConfig(defaultReporterConfig.CATEGORIES_CONFIG_FILE);
     if (customConfig instanceof Array) {
         return customConfig;
     }
     return defaultCategoriesConfig;
 }
 
-var reporterConfig = loadReporterConfig();
-var TestStep = /** @class */ (function () {
-    function TestStep(name, screenshotAmount) {
+const reporterConfig = loadReporterConfig();
+class TestStep {
+    constructor(name, screenshotAmount) {
         if (screenshotAmount) {
             this.screenshotAmount = screenshotAmount;
         }
@@ -167,10 +102,10 @@ var TestStep = /** @class */ (function () {
             this.name = reporterConfig.LABEL.DEFAULT_STEP_NAME;
         }
     }
-    TestStep.prototype.registerScreenshot = function () {
+    registerScreenshot() {
         this.screenshotAmount += 1;
-    };
-    TestStep.prototype.mergeOnSameName = function (testStep) {
+    }
+    mergeOnSameName(testStep) {
         if (this.name === testStep.name) {
             if (testStep.screenshotAmount) {
                 this.screenshotAmount += testStep.screenshotAmount;
@@ -178,43 +113,42 @@ var TestStep = /** @class */ (function () {
             return true;
         }
         return false;
-    };
+    }
     // eslint-disable-next-line no-undef
-    TestStep.prototype.addStepToTest = function (test) {
+    addStepToTest(test) {
         // Steps can be added to the metadata of the test for persistance.
-        var meta = this.getMeta(test);
+        const meta = this.getMeta(test);
         if (!meta.steps) {
             meta.steps = [];
         }
         meta.steps.push(this);
-    };
+    }
     // Using the Testcontroller type might cause an error because of a confict with TestCafé's TestController
-    TestStep.prototype.getMeta = function (testController) {
-        var meta = testController.testRun.test.meta;
+    getMeta(testController) {
+        let { meta } = testController.testRun.test;
         if (!meta) {
             meta = {};
             testController.testRun.test.meta = meta;
         }
         return meta;
-    };
-    return TestStep;
-}());
+    }
+}
 
 function addNewLine(text, line) {
     if (text === null || text.length === 0) {
         return line;
     }
-    return text + "\n" + line;
+    return `${text}\n${line}`;
 }
 
-var reporterConfig$1 = loadReporterConfig();
-var Metadata = /** @class */ (function () {
-    function Metadata(meta, test) {
-        var _this = this;
+/* eslint-disable class-methods-use-this,array-callback-return */
+const reporterConfig$1 = loadReporterConfig();
+class Metadata {
+    constructor(meta, test) {
         this.flaky = false;
         this.otherMeta = new Map();
         if (meta) {
-            var severity = meta.severity, description = meta.description, issue = meta.issue, suite = meta.suite, epic = meta.epic, story = meta.story, feature = meta.feature, flaky = meta.flaky, steps = meta.steps, otherMeta_1 = __rest(meta, ["severity", "description", "issue", "suite", "epic", "story", "feature", "flaky", "steps"]);
+            const { severity, description, issue, suite, epic, story, feature, flaky, steps, ...otherMeta } = meta;
             if (this.isValidEnumValue(severity, allureJsCommons.Severity)) {
                 this.severity = severity;
             }
@@ -247,14 +181,14 @@ var Metadata = /** @class */ (function () {
             if (steps) {
                 this.steps = steps;
             }
-            Object.keys(otherMeta_1).forEach(function (key) {
-                if (_this.isString(otherMeta_1[key])) {
-                    _this.otherMeta.set(key, otherMeta_1[key]);
+            Object.keys(otherMeta).forEach((key) => {
+                if (this.isString(otherMeta[key])) {
+                    this.otherMeta.set(key, otherMeta[key]);
                 }
             });
         }
     }
-    Metadata.prototype.addMetadataToTest = function (test, groupMetadata) {
+    addMetadataToTest(test, groupMetadata) {
         if (!(groupMetadata instanceof Metadata)) {
             throw new Error('groupMetadata is not a valid Metadata object');
         }
@@ -298,7 +232,7 @@ var Metadata = /** @class */ (function () {
             test.addLabel(allureJsCommons.LabelName.STORY, this.story);
         }
         if (this.issue) {
-            test.addLink("" + reporterConfig$1.META.ISSUE_URL + this.issue, reporterConfig$1.LABEL.ISSUE + ": " + this.issue, allureJsCommons.LinkType.ISSUE);
+            test.addLink(`${reporterConfig$1.META.ISSUE_URL}${this.issue}`, `${reporterConfig$1.LABEL.ISSUE}: ${this.issue}`, allureJsCommons.LinkType.ISSUE);
         }
         if (this.description) {
             /* eslint-disable-next-line no-param-reassign */
@@ -310,12 +244,11 @@ var Metadata = /** @class */ (function () {
             // However currenly allure-js-commons does not seem to support flaky tests.
             test.addParameter(reporterConfig$1.LABEL.FLAKY, this.flaky.toString());
         }
-        Array.from(this.otherMeta.entries()).map(function (entry) {
+        Array.from(this.otherMeta.entries()).map((entry) => {
             test.addParameter(entry[0], entry[1]);
         });
-    };
-    Metadata.prototype.mergeMetadata = function (metadata) {
-        var _this = this;
+    }
+    mergeMetadata(metadata) {
         // Local metadata takes preference to merged metadata
         if (!this.severity && metadata.severity) {
             this.severity = metadata.severity;
@@ -346,45 +279,44 @@ var Metadata = /** @class */ (function () {
             this.flaky = metadata.flaky;
         }
         if (metadata.otherMeta.size > 0) {
-            Array.from(metadata.otherMeta.entries()).map(function (entry) {
-                if (!_this.otherMeta.has(entry[0])) {
-                    _this.otherMeta.set(entry[0], entry[1]);
+            Array.from(metadata.otherMeta.entries()).map((entry) => {
+                if (!this.otherMeta.has(entry[0])) {
+                    this.otherMeta.set(entry[0], entry[1]);
                 }
             });
         }
-    };
-    Metadata.prototype.setFlaky = function () {
+    }
+    setFlaky() {
         this.flaky = true;
-    };
-    Metadata.prototype.getSteps = function () {
+    }
+    getSteps() {
         if (this.steps) {
             return this.steps;
         }
         return null;
-    };
-    Metadata.prototype.isValidEnumValue = function (value, validEnum) {
+    }
+    isValidEnumValue(value, validEnum) {
         if (!value) {
             return false;
         }
         return value.toUpperCase() in validEnum;
-    };
-    Metadata.prototype.isString = function (value) {
+    }
+    isString(value) {
         if (!value) {
             return false;
         }
         return typeof value === 'string';
-    };
-    Metadata.prototype.isBoolean = function (value) {
+    }
+    isBoolean(value) {
         return typeof value === 'boolean';
-    };
-    return Metadata;
-}());
+    }
+}
 
 /* eslint-disable @typescript-eslint/no-unused-vars,class-methods-use-this */
-var reporterConfig$2 = loadReporterConfig();
-var categoriesConfig = loadCategoriesConfig();
-var AllureReporter = /** @class */ (function () {
-    function AllureReporter(allureConfig, userAgents) {
+const reporterConfig$2 = loadReporterConfig();
+const categoriesConfig = loadCategoriesConfig();
+class AllureReporter {
+    constructor(allureConfig, userAgents) {
         this.runtime = null;
         this.userAgents = null;
         /* TestCafé does not run the groups concurrently when running the tests concurrently and will end the tests sequentially based on their group/fixture.
@@ -393,7 +325,7 @@ var AllureReporter = /** @class */ (function () {
         this.group = null;
         /* To differentiate between the running tests when running concurrently they are stored using their name as the unique key. */
         this.tests = {};
-        var config;
+        let config;
         if (!allureConfig) {
             config = new allureJsCommons.AllureConfig(reporterConfig$2.RESULT_DIR);
         }
@@ -403,71 +335,71 @@ var AllureReporter = /** @class */ (function () {
         this.userAgents = userAgents;
         this.runtime = new allureJsCommons.AllureRuntime(config);
     }
-    AllureReporter.prototype.setGlobals = function () {
+    setGlobals() {
         // Writing the globals has to be done after the first group has been written for a currently unknown reason.
         // Best to call this function in reporterTaskEnd and to write it as the last thing.
         this.runtime.writeCategoriesDefinitions(categoriesConfig);
         if (this.userAgents) {
             this.runtime.writeEnvironmentInfo({ browsers: this.userAgents.toString() });
         }
-    };
-    AllureReporter.prototype.startGroup = function (name, meta) {
+    }
+    startGroup(name, meta) {
         this.groupMetadata = new Metadata(meta);
         this.groupMetadata.suite = name;
         this.group = this.runtime.startGroup(name);
-    };
-    AllureReporter.prototype.endGroup = function () {
-        var currentGroup = this.group;
+    }
+    endGroup() {
+        const currentGroup = this.group;
         if (currentGroup !== null) {
             currentGroup.endGroup();
         }
-    };
-    AllureReporter.prototype.startTest = function (name, meta) {
-        var currentGroup = this.group;
+    }
+    startTest(name, meta) {
+        const currentGroup = this.group;
         if (currentGroup === null) {
             throw new Error('No active suite');
         }
-        var currentTest = currentGroup.startTest(name);
-        currentTest.fullName = currentGroup.name + " : " + name;
+        const currentTest = currentGroup.startTest(name);
+        currentTest.fullName = `${currentGroup.name} : ${name}`;
         currentTest.historyId = uuid.v4();
         currentTest.stage = allureJsCommons.Stage.RUNNING;
         this.setCurrentTest(name, currentTest);
-    };
-    AllureReporter.prototype.endTest = function (name, testRunInfo, meta) {
-        var currentTest = this.getCurrentTest(name);
+    }
+    endTest(name, testRunInfo, meta) {
+        let currentTest = this.getCurrentTest(name);
         // If no currentTest exists create a new one
         if (currentTest === null) {
             this.startTest(name, meta);
             currentTest = this.getCurrentTest(name);
         }
-        var hasErrors = !!testRunInfo.errs && !!testRunInfo.errs.length;
-        var hasWarnings = !!testRunInfo.warnings && !!testRunInfo.warnings.length;
-        var isSkipped = testRunInfo.skipped;
-        var testMessages = '';
-        var testDetails = '';
+        const hasErrors = !!testRunInfo.errs && !!testRunInfo.errs.length;
+        const hasWarnings = !!testRunInfo.warnings && !!testRunInfo.warnings.length;
+        const isSkipped = testRunInfo.skipped;
+        let testMessages = '';
+        let testDetails = '';
         if (isSkipped) {
             currentTest.status = allureJsCommons.Status.SKIPPED;
         }
         else if (hasErrors) {
             currentTest.status = allureJsCommons.Status.FAILED;
-            var mergedErrors = this.mergeErrors(testRunInfo.errs);
-            mergedErrors.forEach(function (error) {
+            const mergedErrors = this.mergeErrors(testRunInfo.errs);
+            mergedErrors.forEach((error) => {
                 if (error.errMsg) {
                     testMessages = addNewLine(testMessages, error.errMsg);
                 }
                 // TODO: Add detailed error stacktrace
                 // How to convert CallSiteRecord to stacktrace?
-                var callSite = error.callsite;
+                const callSite = error.callsite;
                 if (callSite) {
                     if (callSite.filename) {
-                        testDetails = addNewLine(testDetails, "File name: " + callSite.filename);
+                        testDetails = addNewLine(testDetails, `File name: ${callSite.filename}`);
                     }
                     if (callSite.lineNum) {
-                        testDetails = addNewLine(testDetails, "Line number: " + callSite.lineNum);
+                        testDetails = addNewLine(testDetails, `Line number: ${callSite.lineNum}`);
                     }
                 }
                 if (error.userAgent) {
-                    testDetails = addNewLine(testDetails, "User Agent(s): " + error.userAgent);
+                    testDetails = addNewLine(testDetails, `User Agent(s): ${error.userAgent}`);
                 }
             });
         }
@@ -475,11 +407,11 @@ var AllureReporter = /** @class */ (function () {
             currentTest.status = allureJsCommons.Status.PASSED;
         }
         if (hasWarnings) {
-            testRunInfo.warnings.forEach(function (warning) {
+            testRunInfo.warnings.forEach((warning) => {
                 testMessages = addNewLine(testMessages, warning);
             });
         }
-        var currentMetadata = new Metadata(meta, true);
+        const currentMetadata = new Metadata(meta, true);
         if (testRunInfo.unstable) {
             currentMetadata.setFlaky();
         }
@@ -488,7 +420,7 @@ var AllureReporter = /** @class */ (function () {
         }
         currentMetadata.addMetadataToTest(currentTest, this.groupMetadata);
         // If steps exist handle them, if not add screenshots to base of the test.
-        var testSteps = currentMetadata.getSteps();
+        const testSteps = currentMetadata.getSteps();
         if (testSteps) {
             this.addStepsWithAttachments(currentTest, testRunInfo, testSteps);
         }
@@ -500,33 +432,32 @@ var AllureReporter = /** @class */ (function () {
         currentTest.detailsTrace = testDetails;
         currentTest.stage = allureJsCommons.Stage.FINISHED;
         currentTest.endTest();
-    };
+    }
     //Add video attachments if Video capture is set 
-    AllureReporter.prototype.addVideoAttachments = function (currentTest, testRunInfo) {
-        var _this = this;
+    addVideoAttachments(currentTest, testRunInfo) {
         if (testRunInfo.videos) {
-            testRunInfo.videos.forEach(function (video) {
-                var file = _this.runtime.writeAttachment(fs.readFileSync(video.videoPath), allureJsCommons.ContentType.WEBM);
+            testRunInfo.videos.forEach(video => {
+                const file = this.runtime.writeAttachment(fs.readFileSync(video.videoPath), allureJsCommons.ContentType.WEBM);
                 currentTest.addAttachment("Video", allureJsCommons.ContentType.WEBM, file);
             });
         }
-    };
+    }
     /* To add the screenshots to the correct test steps they have to be loaded from testRunInfo.screenshots.
     Because of how the screenshots are registered within TestCafé the only data the TestStep has via the metadata is the amount
     of screenshots taken an no reference to which screeshot was taken.
     However because both the screenshots and the TestSteps are saved chronologically it can be determined what screenshots are part
     each TestStep by keeping an index of the current screenshot and the number of screenshots taken per TestStep and looping through them. */
-    AllureReporter.prototype.addStepsWithAttachments = function (test, testRunInfo, steps) {
-        var mergedSteps = this.mergeSteps(steps);
-        var stepAmount = mergedSteps.length;
-        var stepLastIndex = stepAmount - 1;
-        var screenshotIndex = 0;
-        for (var i = 0; i < stepAmount; i += 1) {
-            var testStep = mergedSteps[i];
-            var allureStep = test.startStep(testStep.name);
+    addStepsWithAttachments(test, testRunInfo, steps) {
+        const mergedSteps = this.mergeSteps(steps);
+        const stepAmount = mergedSteps.length;
+        const stepLastIndex = stepAmount - 1;
+        let screenshotIndex = 0;
+        for (let i = 0; i < stepAmount; i += 1) {
+            const testStep = mergedSteps[i];
+            const allureStep = test.startStep(testStep.name);
             if (testStep.screenshotAmount && testStep.screenshotAmount > 0) {
-                for (var j = 0; j < testStep.screenshotAmount; j += 1) {
-                    var screenshot = testRunInfo.screenshots[screenshotIndex];
+                for (let j = 0; j < testStep.screenshotAmount; j += 1) {
+                    const screenshot = testRunInfo.screenshots[screenshotIndex];
                     this.addScreenshotAttachment(allureStep, screenshot);
                     screenshotIndex += 1;
                 }
@@ -543,18 +474,23 @@ var AllureReporter = /** @class */ (function () {
             allureStep.stage = allureJsCommons.Stage.FINISHED;
             allureStep.endStep();
         }
-    };
-    AllureReporter.prototype.addScreenshotAttachments = function (test, testRunInfo) {
-        var _this = this;
+        /* Handle failure screenshots */
+        testRunInfo.screenshots.forEach(screenshot => {
+            if (screenshot.takenOnFail) {
+                this.addScreenshotAttachment(test, screenshot);
+            }
+        });
+    }
+    addScreenshotAttachments(test, testRunInfo) {
         if (testRunInfo.screenshots) {
-            testRunInfo.screenshots.forEach(function (screenshot) {
-                _this.addScreenshotAttachment(test, screenshot);
+            testRunInfo.screenshots.forEach((screenshot) => {
+                this.addScreenshotAttachment(test, screenshot);
             });
         }
-    };
-    AllureReporter.prototype.addScreenshotAttachment = function (test, screenshot) {
+    }
+    addScreenshotAttachment(test, screenshot) {
         if (screenshot.screenshotPath && fs.existsSync(screenshot.screenshotPath)) {
-            var screenshotName = void 0;
+            let screenshotName;
             if (screenshot.takenOnFail) {
                 screenshotName = reporterConfig$2.LABEL.SCREENSHOT_ON_FAIL;
             }
@@ -563,113 +499,86 @@ var AllureReporter = /** @class */ (function () {
             }
             // Add the useragent data to the screenshots to differentiate between browsers within the tests.
             if (this.userAgents && this.userAgents.length > 1 && screenshot.userAgent) {
-                screenshotName = screenshotName + " - " + screenshot.userAgent;
+                screenshotName = `${screenshotName} - ${screenshot.userAgent}`;
             }
-            var img = fs.readFileSync(screenshot.screenshotPath);
-            var file = this.runtime.writeAttachment(img, allureJsCommons.ContentType.PNG);
+            const img = fs.readFileSync(screenshot.screenshotPath);
+            const file = this.runtime.writeAttachment(img, allureJsCommons.ContentType.PNG);
             test.addAttachment(screenshotName, allureJsCommons.ContentType.PNG, file);
         }
-    };
+    }
     /* Merge the steps together based on their name. */
-    AllureReporter.prototype.mergeSteps = function (steps) {
-        var mergedSteps = [];
-        steps.forEach(function (step) {
+    mergeSteps(steps) {
+        const mergedSteps = [];
+        steps.forEach((step) => {
             if (step && step.name) {
-                var stepExists_1 = false;
-                mergedSteps.forEach(function (mergedStep) {
-                    stepExists_1 = mergedStep.mergeOnSameName(step);
+                let stepExists = false;
+                mergedSteps.forEach((mergedStep) => {
+                    stepExists = mergedStep.mergeOnSameName(step);
                 });
-                if (!stepExists_1) {
+                if (!stepExists) {
                     mergedSteps.push(new TestStep(step.name, step.screenshotAmount));
                 }
             }
         });
         return mergedSteps;
-    };
+    }
     /* Merge the errors together based on their message. */
-    AllureReporter.prototype.mergeErrors = function (errors) {
-        var mergedErrors = [];
-        errors.forEach(function (error) {
+    mergeErrors(errors) {
+        const mergedErrors = [];
+        errors.forEach((error) => {
             if (error && error.errMsg) {
-                var errorExists_1 = false;
-                mergedErrors.forEach(function (mergedError) {
+                let errorExists = false;
+                mergedErrors.forEach((mergedError) => {
                     if (error.errMsg === mergedError.errMsg) {
-                        errorExists_1 = true;
+                        errorExists = true;
                         if (error.userAgent && mergedError.userAgent !== error.userAgent) {
                             /* eslint-disable-next-line no-param-reassign */
-                            mergedError.userAgent = mergedError.userAgent + ", " + error.userAgent;
+                            mergedError.userAgent = `${mergedError.userAgent}, ${error.userAgent}`;
                         }
                     }
                 });
-                if (!errorExists_1) {
+                if (!errorExists) {
                     mergedErrors.push(error);
                 }
             }
         });
         return mergedErrors;
-    };
-    AllureReporter.prototype.getCurrentTest = function (name) {
+    }
+    getCurrentTest(name) {
         if (name) {
-            var allureTest = this.tests[name.toString()];
+            const allureTest = this.tests[name.toString()];
             if (allureTest) {
                 return allureTest;
             }
         }
         return null;
-    };
-    AllureReporter.prototype.setCurrentTest = function (name, test) {
+    }
+    setCurrentTest(name, test) {
         if (name && test) {
             this.tests[name] = test;
         }
-    };
-    return AllureReporter;
-}());
-
-var reporterConfig$3 = loadReporterConfig();
-function deleteFolderContents(dataPath) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    if (!dataPath) return [3 /*break*/, 2];
-                    return [4 /*yield*/, rimraf__default['default'](dataPath + "/*", function () { })];
-                case 1:
-                    _a.sent();
-                    _a.label = 2;
-                case 2: return [2 /*return*/];
-            }
-        });
-    });
-}
-function cleanAllureFolders() {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    if (!reporterConfig$3.CLEAN_RESULT_DIR) return [3 /*break*/, 2];
-                    return [4 /*yield*/, deleteFolderContents(path.resolve(process.cwd(), reporterConfig$3.RESULT_DIR))];
-                case 1:
-                    _a.sent();
-                    _a.label = 2;
-                case 2:
-                    if (!reporterConfig$3.CLEAN_REPORT_DIR) return [3 /*break*/, 4];
-                    return [4 /*yield*/, deleteFolderContents(path.resolve(process.cwd(), reporterConfig$3.REPORT_DIR))];
-                case 3:
-                    _a.sent();
-                    _a.label = 4;
-                case 4:
-                    if (!reporterConfig$3.CLEAN_SCREENSHOT_DIR) return [3 /*break*/, 6];
-                    return [4 /*yield*/, deleteFolderContents(path.resolve(process.cwd(), reporterConfig$3.SCREENSHOT_DIR))];
-                case 5:
-                    _a.sent();
-                    _a.label = 6;
-                case 6: return [2 /*return*/];
-            }
-        });
-    });
+    }
 }
 
-var reporterConfig$4 = loadReporterConfig();
+const reporterConfig$3 = loadReporterConfig();
+async function deleteFolderContents(dataPath) {
+    if (dataPath) {
+        await rimraf__default['default'](`${dataPath}/*`, () => { });
+    }
+}
+async function cleanAllureFolders() {
+    if (reporterConfig$3.CLEAN_RESULT_DIR) {
+        await deleteFolderContents(path.resolve(process.cwd(), reporterConfig$3.RESULT_DIR));
+    }
+    if (reporterConfig$3.CLEAN_REPORT_DIR) {
+        await deleteFolderContents(path.resolve(process.cwd(), reporterConfig$3.REPORT_DIR));
+    }
+    if (reporterConfig$3.CLEAN_SCREENSHOT_DIR) {
+        await deleteFolderContents(path.resolve(process.cwd(), reporterConfig$3.SCREENSHOT_DIR));
+    }
+}
+
+const reporterConfig$4 = loadReporterConfig();
 function log(reporter, text) {
     if (reporterConfig$4.ENABLE_LOGGING) {
         reporter.write(text).newline();
@@ -681,67 +590,36 @@ function index () {
         allureReporter: null,
         allureConfig: null,
         /* Used to get the reporter for unittesting itself. */
-        getReporter: function () {
+        getReporter() {
             return this;
         },
-        preloadConfig: function (allureConfig) {
+        preloadConfig(allureConfig) {
             this.allureConfig = allureConfig;
         },
-        reportTaskStart: function (startTime, userAgents, testCount) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            log(this, 'Starting Task');
-                            this.allureReporter = new AllureReporter(this.allureConfig, userAgents);
-                            // Clean the previous allure results
-                            return [4 /*yield*/, cleanAllureFolders()];
-                        case 1:
-                            // Clean the previous allure results
-                            _a.sent();
-                            return [2 /*return*/];
-                    }
-                });
-            });
+        async reportTaskStart(startTime, userAgents, testCount) {
+            log(this, 'Starting Task');
+            this.allureReporter = new AllureReporter(this.allureConfig, userAgents);
+            // Clean the previous allure results
+            await cleanAllureFolders();
         },
-        reportFixtureStart: function (name, path, meta) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    log(this, "Starting Fixture: " + name);
-                    // End the previous group because testcafe does not trigger the reporter when a fixture ends.
-                    this.allureReporter.endGroup();
-                    this.allureReporter.startGroup(name, meta);
-                    return [2 /*return*/];
-                });
-            });
+        async reportFixtureStart(name, path, meta) {
+            log(this, `Starting Fixture: ${name}`);
+            // End the previous group because testcafe does not trigger the reporter when a fixture ends.
+            this.allureReporter.endGroup();
+            this.allureReporter.startGroup(name, meta);
         },
-        reportTestStart: function (name, meta) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    log(this, "Starting Test: " + name);
-                    this.allureReporter.startTest(name, meta);
-                    return [2 /*return*/];
-                });
-            });
+        async reportTestStart(name, meta) {
+            log(this, `Starting Test: ${name}`);
+            this.allureReporter.startTest(name, meta);
         },
-        reportTestDone: function (name, testRunInfo, meta) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    log(this, "Ending Test: " + name);
-                    this.allureReporter.endTest(name, testRunInfo, meta);
-                    return [2 /*return*/];
-                });
-            });
+        async reportTestDone(name, testRunInfo, meta) {
+            log(this, `Ending Test: ${name}`);
+            this.allureReporter.endTest(name, testRunInfo, meta);
         },
-        reportTaskDone: function (endTime, passed, warnings, result) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    log(this, 'Ending Task');
-                    this.allureReporter.endGroup();
-                    this.allureReporter.setGlobals();
-                    return [2 /*return*/];
-                });
-            });
+        async reportTaskDone(endTime, passed, warnings, result) {
+            log(this, 'Ending Task');
+            this.allureReporter.endGroup();
+            this.allureReporter.setGlobals();
         },
     };
 }

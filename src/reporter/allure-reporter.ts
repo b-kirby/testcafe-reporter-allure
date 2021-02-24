@@ -210,6 +210,13 @@ export default class AllureReporter {
       allureStep.stage = Stage.FINISHED;
       allureStep.endStep();
     }
+    
+    /* Handle failure screenshots */
+    testRunInfo.screenshots.forEach(screenshot => {
+      if(screenshot.takenOnFail){
+        this.addScreenshotAttachment(test, screenshot)
+      }
+    });
   }
 
   private addScreenshotAttachments(test: AllureTest, testRunInfo: TestRunInfo): void {
